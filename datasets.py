@@ -197,7 +197,7 @@ def load_csv_dataset(filepath):
             raise ValueError("CSV does not contain numeric data in its first two columns.")
 
         description = f"Custom CSV Dataset loaded from '{filepath}' ({len(data)} points)."
-        suggested_params = {"eps": 1.5, "min_pts": 5, "eps_prime": 0.8}
+        suggested_params = {"eps": 0.4, "min_pts": 5, "eps_prime": 0.36}
         return data, description, suggested_params
     except Exception as e:
         raise RuntimeError(f"Error loading CSV file '{filepath}': {e}")
