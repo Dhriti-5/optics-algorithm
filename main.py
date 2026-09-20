@@ -223,7 +223,7 @@ def plot_optics_presentation(data, ordered_list, reachability, labels, eps_prime
     n_clusters = len(cluster_ids)
     
     # Generate distinct vibrant colors for clusters
-    cmap = plt.cm.get_cmap('tab10', max(10, n_clusters))
+    cmap = plt.get_cmap('tab10', max(10, n_clusters))
     cluster_colors = {}
     for i, c_id in enumerate(cluster_ids):
         cluster_colors[c_id] = cmap(i % 10)
@@ -411,7 +411,7 @@ def main():
         data, description, suggested = selected['generator']()
         dataset_name = selected['name']
     elif choice == "6":
-        filepath = input("Enter path to your CSV file: ").strip()
+        filepath = input("Enter path to your CSV file: ").strip().strip('"').strip("'")
         try:
             data, description, suggested = datasets.load_csv_dataset(filepath)
             dataset_name = f"Custom CSV: {filepath}"

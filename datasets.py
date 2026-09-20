@@ -187,15 +187,15 @@ def load_csv_dataset(filepath):
     Supports CSV with or without headers.
     """
     try:
-        # Load raw file skipping header lines if text is detected
-        data = np.genfromtxt(filepath, delimiter=',', comments='#')
-        # Drop NaN rows if header was skipped
+        # Read only the first two numeric columns; later columns may contain labels.
+        data = np.genfromtxt(filepath, delimiter=',', usecols=(0, 1), comments='#')
+        data = np.atleast_2d(data)
+        # A text header becomes a NaN row, while headerless files remain unchanged.
         data = data[~np.isnan(data).any(axis=1)]
-        
-        if data.shape[1] < 2:
-            raise ValueError("CSV must contain at least 2 numeric columns for 2D plotting.")
-            
-        data = data[:, :2] # Use first two columns
+
+        if data.shape[0] == 0:
+            raise ValueError("CSV does not contain numeric data in its first two columns.")
+
         description = f"Custom CSV Dataset loaded from '{filepath}' ({len(data)} points)."
         suggested_params = {"eps": 1.5, "min_pts": 5, "eps_prime": 0.8}
         return data, description, suggested_params
